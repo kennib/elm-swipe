@@ -1,5 +1,5 @@
 {
-    "version": "0.0.0",
+    "version": "1.0.0",
     "summary": "Swipe actions library",
     "repository": "https://github.com/kennib/elm-swipe.git",
     "license": "BSD3",
