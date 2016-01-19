@@ -1,4 +1,4 @@
-module Swipe (Swipe, swipes, SwipeState, SwipeStart, swipeStates, Direction) where
+module Swipe (Swipe, swipes, SwipeState(Start, Swiping, End), SwipeStart, swipeStates, Direction(Up, Down, Left, Right)) where
 {-| The Swipe package allows you to access swipe gestures from the browser
 
 # Swipes
