@@ -1,0 +1,16 @@
+{
+    "version": "0.0.0",
+    "summary": "Swipe actions library",
+    "repository": "https://github.com/kennib/elm-swipe.git",
+    "license": "BSD3",
+    "source-directories": [
+        "."
+    ],
+    "exposed-modules": [
+        "Swipe"
+    ],
+    "dependencies": {
+        "elm-lang/core": "3.0.0 <= v < 4.0.0"
+    },
+    "elm-version": "0.15.1 <= v <= 0.16.0"
+}
