@@ -148,7 +148,13 @@ update touch swipeState = case swipeState of
                     , direction = swipe.direction
                     , t0 = swipe.t0
                     }
-    End swipe -> Just <| End swipe
+    End swipe ->
+            Just <| Start
+                { x = touch.x
+                , y = touch.y
+                , id = touch.id
+                , t0 = touch.t0
+                }
 
 
 {-| A list of completed swipes. -}
