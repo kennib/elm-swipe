@@ -1,14 +1,24 @@
 import Array exposing (Array)
 import Html exposing (Html, div, h1, img, text)
+import Html.Attributes as Attr exposing (..)
 import Swipe exposing (..)
 
 carousel : Array Html
-carousel = Array.fromList
-    [ div [] [h1 [] [text "1 - Elm"]]
-    , div [] [h1 [] [text "2 - Oak"]]
-    , div [] [h1 [] [text "3 - Birch"]]
-    , div [] [h1 [] [text "4 - Spruce"]]
-    ]
+carousel = let
+        slideStyle colour =
+        [ ("width", "100%")
+        , ("height", "100%")
+        , ("min-height", "600px")
+        , ("margin", "0px")
+        , ("background-color", colour)
+        ]
+    in
+        Array.fromList
+        [ div [style <| slideStyle "#aaccaa"] [h1 [] [text "1 - Elm"]]
+        , div [style <| slideStyle "#ccaaaa"] [h1 [] [text "2 - Oak"]]
+        , div [style <| slideStyle "#aaaacc"] [h1 [] [text "3 - Birch"]]
+        , div [style <| slideStyle "#ccaaaa"] [h1 [] [text "4 - Spruce"]]
+        ]
 
 {- Watch for swipes (as index changes) and then update based on the swipes -}
 main = Signal.map view <| Signal.foldp update 0 indexChanges
