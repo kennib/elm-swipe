@@ -123,31 +123,28 @@ update touch swipeState = case swipeState of
     Swiping swipe ->
         let
             fromStartDir = direction (touch.x - swipe.x0) (touch.y - swipe.y0)
-            fromEndDir = direction (touch.x - swipe.x1) (touch.y - swipe.y1)
-            sameDir = case (fromStartDir, fromEndDir) of
-                (Just start, Just end) -> start == end
-                (_, _) -> False
         in
-            if sameDir then
-                Just <| Swiping
-                    { x0 = swipe.x0
-                    , y0 = swipe.y0
-                    , x1 = touch.x
-                    , y1 = touch.y
-                    , id = swipe.id
-                    , direction = swipe.direction
-                    , t0 = swipe.t0
-                    }
-            else
-                Just <| End
-                    { x0 = swipe.x0
-                    , y0 = swipe.y0
-                    , x1 = touch.x
-                    , y1 = touch.y
-                    , id = swipe.id
-                    , direction = swipe.direction
-                    , t0 = swipe.t0
-                    }
+            case fromStartDir of
+                Just dir ->
+                    Just <| Swiping
+                        { x0 = swipe.x0
+                        , y0 = swipe.y0
+                        , x1 = touch.x
+                        , y1 = touch.y
+                        , id = swipe.id
+                        , direction = dir
+                        , t0 = swipe.t0
+                        }
+                Nothing ->
+                    Just <| End
+                        { x0 = swipe.x0
+                        , y0 = swipe.y0
+                        , x1 = touch.x
+                        , y1 = touch.y
+                        , id = swipe.id
+                        , direction = swipe.direction
+                        , t0 = swipe.t0
+                        }
     End swipe ->
             Just <| Start
                 { x = touch.x
