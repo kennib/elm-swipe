@@ -24,10 +24,10 @@ A swipe also has a `Direction` which indicates the direction the user made conta
 Swipes also have a start time (`t0`) and an end time (`t1`).
 -}
 type alias Swipe =
-    { x0 : Int
-    , y0 : Int
-    , x1 : Int
-    , y1 : Int
+    { x0 : Float
+    , y0 : Float
+    , x1 : Float
+    , y1 : Float
     , id : Int
     , direction : Direction
     , t0 : Time
@@ -35,8 +35,8 @@ type alias Swipe =
 
 {-| A `SwipeStart` is the initial touch for a swipe when the direction and end-time of the swipe is unknown. -}
 type alias SwipeStart =
-    { x : Int
-    , y : Int
+    { x : Float
+    , y : Float
     , id : Int
     , t0 : Time
     }
@@ -49,7 +49,7 @@ type SwipeState = Start SwipeStart | Swiping Swipe | End Swipe
 type Direction = Up | Down | Left | Right
 
 {-| The direction of a swipe as determined by differences in `x` and `y` positions -}
-direction : Int -> Int -> Maybe Direction
+direction : Float -> Float -> Maybe Direction
 direction dx dy =
     if abs dx > abs dy then
         if dx > 0 then
@@ -93,8 +93,8 @@ swipeStates = let
             ++
             -- Touches not seen yet will become the start of swipes
             (List.map (\touch -> Start
-                { x = touch.x
-                , y = touch.y
+                { x = toFloat touch.x
+                , y = toFloat touch.y
                 , id = touch.id
                 , t0 = touch.t0
                 }
@@ -109,12 +109,12 @@ A swipe may end if the user stops swiping. -}
 update : Touch -> SwipeState -> Maybe SwipeState
 update touch swipeState = case swipeState of
     Start start ->
-        case direction (touch.x - start.x) (touch.y - start.y) of
+        case direction (toFloat touch.x - start.x) (toFloat touch.y - start.y) of
             Just dir -> Just <| Swiping
                 { x0 = start.x
                 , y0 = start.y
-                , x1 = touch.x
-                , y1 = touch.y
+                , x1 = toFloat touch.x
+                , y1 = toFloat touch.y
                 , id = start.id
                 , direction = dir
                 , t0 = start.t0
@@ -122,15 +122,15 @@ update touch swipeState = case swipeState of
             Nothing -> Nothing
     Swiping swipe ->
         let
-            fromStartDir = direction (touch.x - swipe.x0) (touch.y - swipe.y0)
+            fromStartDir = direction (toFloat touch.x - swipe.x0) (toFloat touch.y - swipe.y0)
         in
             case fromStartDir of
                 Just dir ->
                     Just <| Swiping
                         { x0 = swipe.x0
                         , y0 = swipe.y0
-                        , x1 = touch.x
-                        , y1 = touch.y
+                        , x1 = toFloat touch.x
+                        , y1 = toFloat touch.y
                         , id = swipe.id
                         , direction = dir
                         , t0 = swipe.t0
@@ -139,16 +139,16 @@ update touch swipeState = case swipeState of
                     Just <| End
                         { x0 = swipe.x0
                         , y0 = swipe.y0
-                        , x1 = touch.x
-                        , y1 = touch.y
+                        , x1 = toFloat touch.x
+                        , y1 = toFloat touch.y
                         , id = swipe.id
                         , direction = swipe.direction
                         , t0 = swipe.t0
                         }
     End swipe ->
             Just <| Start
-                { x = touch.x
-                , y = touch.y
+                { x = toFloat touch.x
+                , y = toFloat touch.y
                 , id = touch.id
                 , t0 = touch.t0
                 }
